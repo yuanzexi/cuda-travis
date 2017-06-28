@@ -3,7 +3,7 @@ language: C++
 sudo: enabled
 dist: trusty
 
-env:
+global:
     - CUDA=8.0.44
 
 before_install:
