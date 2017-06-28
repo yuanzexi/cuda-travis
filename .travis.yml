@@ -22,7 +22,8 @@ before_install:
     - PATH=${CUDA_HOME}/bin:${PATH} 
     - wget https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-linux.zip
     - unzip ninja-linux.zip
-    - PATH = ${PATH}:${PWD}
+    - pwd
+    - PATH=${PATH}:${PWD}
 
 before_script:
 
