@@ -20,11 +20,14 @@ before_install:
     - CUDA_HOME=/usr/local/cuda-${CUDA:0:3}
     - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
     - PATH=${CUDA_HOME}/bin:${PATH} 
+    - wget https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-linux.zip
+    - unzip ninja-linux.zip
+    - PATH = ${PATH}:${PWD}
 
 before_script:
 
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -GNinja
 
-script: make  
+script: ninja
