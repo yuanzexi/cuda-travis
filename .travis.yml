@@ -3,8 +3,7 @@ language: C++
 sudo: enabled
 dist: trusty
 
-global:
-    - CUDA=8.0.44
+env: CUDA=8.0.61-1
 
 before_install:
     - wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_${CUDA}_amd64.deb
