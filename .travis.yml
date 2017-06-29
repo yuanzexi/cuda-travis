@@ -1,14 +1,17 @@
-language: C++
+language: cpp
 
 sudo: enabled
 dist: trusty
 
-matrix:
-  include:
-    - env: CUDA=8.0.61-1
 
-    - env: CUDA=7.5-18
+env: 
+  - CUDA=8.0.61-1
+  - CUDA=7.5-18
 
+compiler:
+  - clang
+  - gcc
+  
 before_install:
     - wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_${CUDA}_amd64.deb
     - sudo dpkg -i cuda-repo-ubuntu1404_${CUDA}_amd64.deb
@@ -20,11 +23,15 @@ before_install:
     - CUDA_HOME=/usr/local/cuda-${CUDA:0:3}
     - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
     - PATH=${CUDA_HOME}/bin:${PATH} 
+    - wget https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-linux.zip
+    - unzip ninja-linux.zip
+    - pwd
+    - PATH=${PATH}:${PWD}
 
 before_script:
 
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -GNinja
 
-script: make  
+script: ninja
