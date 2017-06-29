@@ -1,14 +1,17 @@
-language: C++
+language: cpp
 
 sudo: enabled
 dist: trusty
 
-matrix:
-  include:
-    - env: CUDA=8.0.61-1
 
-    - env: CUDA=7.5-18
+env: 
+  - CUDA=8.0.61-1
+  - CUDA=7.5-18
 
+compiler:
+  - clang
+  - gcc
+  
 before_install:
     - wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_${CUDA}_amd64.deb
     - sudo dpkg -i cuda-repo-ubuntu1404_${CUDA}_amd64.deb
