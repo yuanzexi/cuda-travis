@@ -10,20 +10,24 @@ matrix:
   include:
     - env:
       - CUDA=8.0.61-1
-      before_install:
-        - wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_${CUDA}_amd64.deb
-        - sudo dpkg -i cuda-repo-ubuntu1604_${CUDA}_amd64.deb
-        - sudo apt-get update -qq
-        - CUDA_APT=${CUDA:0:3}
-        - CUDA_APT=${CUDA_APT/./-}
-        - sudo apt-get install -y cuda-drivers cuda-core-${CUDA_APT} cuda-cudart-dev-${CUDA_APT} cuda-cufft-dev-${CUDA_APT}
-        - sudo apt-get clean
-        - CUDA_HOME=/usr/local/cuda-${CUDA:0:3}
-        - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
-        - PATH=${CUDA_HOME}/bin:${PATH}
-        - wget https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-linux.zip
-        - unzip ninja-linux.zip
-        - PATH=${PATH}:${PWD}
+    - env:
+      - CUDA=9.2.148-1
+
+before_install:
+  - INSTALLER=cuda-repo-ubuntu1604_${CUDA}_amd64.deb
+  - wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/${INSTALLER}
+  - sudo dpkg -i ${INSTALLER}
+  - sudo apt-get update -qq
+  - CUDA_APT=${CUDA:0:3}
+  - CUDA_APT=${CUDA_APT/./-}
+  - sudo apt-get install -y cuda-drivers cuda-core-${CUDA_APT} cuda-cudart-dev-${CUDA_APT} cuda-cufft-dev-${CUDA_APT} --allow-unauthenticated
+  - sudo apt-get clean
+  - CUDA_HOME=/usr/local/cuda-${CUDA:0:3}
+  - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
+  - PATH=${CUDA_HOME}/bin:${PATH}
+  - wget https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-linux.zip
+  - unzip ninja-linux.zip
+  - PATH=${PATH}:${PWD}
 
 before_script:
     - mkdir build
