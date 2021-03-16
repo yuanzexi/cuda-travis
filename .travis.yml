@@ -63,6 +63,7 @@ install:
 
 before_script:
   - wget https://github.com/Neargye/tensorflow/releases/download/v1.15.0/libtensorflow-cpu-linux-x86_64-1.15.0.tar.gz -O tensorflow.tar.gz
+  - mkdir tensorflow_lib
   - tar -xzvf tensorflow.tar.gz --directory tensorflow_lib 
   - cp -rv tensorflow_lib/lib/ source/third_party/tensorflow/ 
   - rm -rv tensorflow_lib tensorflow.tar.gz
