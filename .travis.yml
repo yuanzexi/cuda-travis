@@ -13,7 +13,7 @@ matrix:
       - CUDA=10.0.130-1
       - CUDA_SHORT=10.0
       - CUDNN_MAJOR=7
-      - CUDNN_VERSION=7.6.5.32
+      - CUDNN_VERSION=7.6.5.*
       - TRT_VERSION=7.0.0
       - UBUNTU_VERSION=ubuntu1604
     - name: CUDA 10.2
@@ -22,7 +22,7 @@ matrix:
       - CUDA=10.2.89-1
       - CUDA_SHORT=10.2
       - CUDNN_MAJOR=8
-      - CUDNN_VERSION=8.0.4.30
+      - CUDNN_VERSION=8.0.4.*
       - TRT_VERSION=7.2.3
       - UBUNTU_VERSION=ubuntu1604
 
@@ -36,9 +36,9 @@ before_install:
   - sudo dpkg -i nvidia-machine-learning-repo-*.deb
   - sudo apt update -qq
   - sudo apt install -y cuda-core-${CUDA_SHORT/./-} cuda-cudart-dev-${CUDA_SHORT/./-} cuda-cufft-dev-${CUDA_SHORT/./-}
-  - sudo apt-get install libcudnn${CUDNN_MAJOR}-dev=${CUDNN_VERSION}-1+${CUDA_SHORT}
+  - sudo apt install -y libcudnn${CUDNN_MAJOR}=${CUDNN_VERSION}-1+${CUDA_SHORT} libcudnn${CUDNN_MAJOR}-dev=${CUDNN_VERSION}-1+${CUDA_SHORT}
   - TRT_CUDA_VERSION=${TRT_VERSION}-1+cuda${CUDA_SHORT}
-  - sudo apt install libnvinfer7=${TRT_CUDA_VERSION} libnvonnxparsers7=${TRT_CUDA_VERSION} libnvparsers7=${TRT_CUDA_VERSION} libnvinfer-plugin7=${TRT_CUDA_VERSION} libnvinfer-dev=${TRT_CUDA_VERSION} libnvonnxparsers-dev=${TRT_CUDA_VERSION} libnvparsers-dev=${TRT_CUDA_VERSION} libnvinfer-plugin-dev=${TRT_CUDA_VERSION} python-libnvinfer=${TRT_CUDA_VERSION} python3-libnvinfer=${TRT_CUDA_VERSION}
+  - sudo apt install -y libnvinfer7=${TRT_CUDA_VERSION} libnvonnxparsers7=${TRT_CUDA_VERSION} libnvparsers7=${TRT_CUDA_VERSION} libnvinfer-plugin7=${TRT_CUDA_VERSION} libnvinfer-dev=${TRT_CUDA_VERSION} libnvonnxparsers-dev=${TRT_CUDA_VERSION} libnvparsers-dev=${TRT_CUDA_VERSION} libnvinfer-plugin-dev=${TRT_CUDA_VERSION} python-libnvinfer=${TRT_CUDA_VERSION} python3-libnvinfer=${TRT_CUDA_VERSION}
   - sudo apt clean
   - CUDA_HOME=/usr/local/cuda-${CUDA_SHORT}
   - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
