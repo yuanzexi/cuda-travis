@@ -8,23 +8,23 @@ compiler:
 matrix:
   include:
     - name: CUDA 10.0
+      dist: xenial
       env:
       - CUDA=10.0.130-1
       - CUDA_SHORT=10.0
-      - CUDNN_MAJOR_VER=7
-      - CUDNN_VER=7.6.5.32
-      - TENSORRT_VER=trt7.0.0.11-ga-20191216
+      - CUDNN_MAJOR=7
+      - CUDNN_VERSION=7.6.5.32
+      - TRT_VERSION=7.0.0
       - UBUNTU_VERSION=ubuntu1604
-      dist: xenial
     - name: CUDA 10.2
+      dist: xenial
       env:
       - CUDA=10.2.89-1
       - CUDA_SHORT=10.2
-      - CUDNN_MAJOR_VER=8
-      - CUDNN_VER=8.0.4.30
-      - TENSORRT_VER=trt7.2.1.6-ga-20191216
-      - UBUNTU_VERSION=ubuntu1804
-      dist: bionic
+      - CUDNN_MAJOR=8
+      - CUDNN_VERSION=8.0.4.30
+      - TRT_VERSION=7.2.3
+      - UBUNTU_VERSION=ubuntu1604
 
 before_install:
   - INSTALLER=cuda-repo-${UBUNTU_VERSION}_${CUDA}_amd64.deb
@@ -32,14 +32,13 @@ before_install:
   - sudo dpkg -i ${INSTALLER}
   - wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/7fa2af80.pub
   - sudo apt-key add 7fa2af80.pub
-  - sudo apt update -qq
-  - TRT_INSTALLER=nv-tensorrt-repo-${UBUNTU_VERSION}-${CUDA_SHORT}-${TENSORRT_VER}_1-1_amd64.deb
-  - sudo dpkg -i ${TRT_INSTALLER}
-  - sudo apt-key add /var/nv-tensorrt-repo-${CUDA_SHORT}-${TENSORRT_VER}/7fa2af80.pub
+  - wget https://developer.download.nvidia.com/compute/machine-learning/repos/${UBUNTU_VERSION}/x86_64/nvidia-machine-learning-repo-${UBUNTU_VERSION}_1.0.0-1_amd64.deb
+  - sudo dpkg -i nvidia-machine-learning-repo-*.deb
   - sudo apt update -qq
   - sudo apt install -y cuda-core-${CUDA_SHORT/./-} cuda-cudart-dev-${CUDA_SHORT/./-} cuda-cufft-dev-${CUDA_SHORT/./-}
-  - sudo apt-get install libcudnn${CUDNN_MAJOR_VER}-dev=${CUDNN_VER}-1+${CUDA_SHORT/./-}
-  - sudo apt install tensorrt python-libnvinfer-dev python3-libnvinfer-dev
+  - sudo apt-get install libcudnn${CUDNN_MAJOR}-dev=${CUDNN_VERSION}-1+${CUDA_SHORT/./-}
+  - TRT_CUDA_VERSION=${TRT_VERSION}-1+cuda${CUDA_SHORT}
+  - sudo apt install libnvinfer7=${TRT_CUDA_VERSION} libnvonnxparsers7=${TRT_CUDA_VERSION} libnvparsers7=${TRT_CUDA_VERSION} libnvinfer-plugin7=${TRT_CUDA_VERSION} libnvinfer-dev=${TRT_CUDA_VERSION} libnvonnxparsers-dev=${TRT_CUDA_VERSION} libnvparsers-dev=${TRT_CUDA_VERSION} libnvinfer-plugin-dev=${TRT_CUDA_VERSION} python-libnvinfer=${TRT_CUDA_VERSION} python3-libnvinfer=${TRT_CUDA_VERSION}
   - sudo apt clean
   - CUDA_HOME=/usr/local/cuda-${CUDA_SHORT}
   - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
