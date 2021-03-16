@@ -7,22 +7,22 @@ compiler:
 
 matrix:
   include:
-    - name: CUDA 8
+    - name: CUDA 10.0
       env:
-      - CUDA=8.0.61-1
-      - CUDA_SHORT=8.0
+      - CUDA=10.0.130-1
+      - CUDA_SHORT=10.0
+      - CUDNN_MAJOR_VER=7
+      - CUDNN_VER=7.6.5.32
+      - TENSORRT_VER=trt7.0.0.11-ga-20191216
       - UBUNTU_VERSION=ubuntu1604
       dist: xenial
-    - name: CUDA 9
+    - name: CUDA 10.2
       env:
-      - CUDA=9.2.148-1
-      - CUDA_SHORT=9.2
-      - UBUNTU_VERSION=ubuntu1604
-      dist: xenial
-    - name: CUDA 10
-      env:
-      - CUDA=10.1.105-1
-      - CUDA_SHORT=10.1
+      - CUDA=10.2.89-1
+      - CUDA_SHORT=10.2
+      - CUDNN_MAJOR_VER=8
+      - CUDNN_VER=8.0.4.30
+      - TENSORRT_VER=trt7.2.1.6-ga-20191216
       - UBUNTU_VERSION=ubuntu1804
       dist: bionic
 
@@ -33,18 +33,19 @@ before_install:
   - wget https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/7fa2af80.pub
   - sudo apt-key add 7fa2af80.pub
   - sudo apt update -qq
+  - TRT_INSTALLER=nv-tensorrt-repo-${UBUNTU_VERSION}-${CUDA_SHORT}-${TENSORRT_VER}_1-1_amd64.deb
+  - sudo dpkg -i ${TRT_INSTALLER}
+  - sudo apt-key add /var/nv-tensorrt-repo-${CUDA_SHORT}-${TENSORRT_VER}/7fa2af80.pub
+  - sudo apt update -qq
   - sudo apt install -y cuda-core-${CUDA_SHORT/./-} cuda-cudart-dev-${CUDA_SHORT/./-} cuda-cufft-dev-${CUDA_SHORT/./-}
+  - sudo apt-get install libcudnn${CUDNN_MAJOR_VER}-dev=${CUDNN_VER}-1+${CUDA_SHORT/./-}
+  - sudo apt install tensorrt python-libnvinfer-dev python3-libnvinfer-dev
   - sudo apt clean
   - CUDA_HOME=/usr/local/cuda-${CUDA_SHORT}
   - LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
   - PATH=${CUDA_HOME}/bin:${PATH}
-  - wget https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-linux.zip
-  - unzip ninja-linux.zip
-  - PATH=${PATH}:${PWD}
 
 before_script:
     - mkdir build
     - cd build
-    - cmake .. -GNinja
-
-script: ninja
+    - cmake ..
