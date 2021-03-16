@@ -36,7 +36,7 @@ before_install:
   - sudo dpkg -i nvidia-machine-learning-repo-*.deb
   - sudo apt update -qq
   - sudo apt install -y cuda-core-${CUDA_SHORT/./-} cuda-cudart-dev-${CUDA_SHORT/./-} cuda-cufft-dev-${CUDA_SHORT/./-}
-  - sudo apt install -y libcudnn${CUDNN_MAJOR}=${CUDNN_VERSION}-1+${CUDA_SHORT} libcudnn${CUDNN_MAJOR}-dev=${CUDNN_VERSION}-1+${CUDA_SHORT}
+  - sudo apt install -y libcudnn${CUDNN_MAJOR} libcudnn${CUDNN_MAJOR}-dev
   - TRT_CUDA_VERSION=${TRT_VERSION}-1+cuda${CUDA_SHORT}
   - sudo apt install -y libnvinfer7=${TRT_CUDA_VERSION} libnvonnxparsers7=${TRT_CUDA_VERSION} libnvparsers7=${TRT_CUDA_VERSION} libnvinfer-plugin7=${TRT_CUDA_VERSION} libnvinfer-dev=${TRT_CUDA_VERSION} libnvonnxparsers-dev=${TRT_CUDA_VERSION} libnvparsers-dev=${TRT_CUDA_VERSION} libnvinfer-plugin-dev=${TRT_CUDA_VERSION} python-libnvinfer=${TRT_CUDA_VERSION} python3-libnvinfer=${TRT_CUDA_VERSION}
   - sudo apt clean
