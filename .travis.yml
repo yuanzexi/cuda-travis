@@ -13,7 +13,7 @@ matrix:
       - CUDA=10.0.130-1
       - CUDA_SHORT=10.0
       - CUDNN_MAJOR=7
-      - CUDNN_VERSION=7.6.5.32
+      - CUDNN_VERSION=7.6.5
       - TRT_VERSION=7.0.0
       - UBUNTU_VERSION=ubuntu1604
     - name: CUDA 10.2
@@ -22,7 +22,7 @@ matrix:
       - CUDA=10.2.89-1
       - CUDA_SHORT=10.2
       - CUDNN_MAJOR=8
-      - CUDNN_VERSION=8.0.4.30
+      - CUDNN_VERSION=8.0.4
       - TRT_VERSION=7.2.3
       - UBUNTU_VERSION=ubuntu1604
 
