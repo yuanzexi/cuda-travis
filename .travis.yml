@@ -62,7 +62,7 @@ install:
   - pip3 install torch==1.3.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
 before_script:
-  - wget https://github.com/Neargye/tensorflow/releases/download/v1.15.0/libtensorflow-cpu-linux-x86_64-1.15.0.tar.gz -o tensorflow.tar.gz
+  - wget https://github.com/Neargye/tensorflow/releases/download/v1.15.0/libtensorflow-cpu-linux-x86_64-1.15.0.tar.gz -O tensorflow.tar.gz
   - tar -xvf tensorflow.tar.gz --directory tensorflow_lib 
   - cp -rv tensorflow_lib/lib/ source/third_party/tensorflow/ 
   - rm -rv tensorflow_lib tensorflow.tar.gz
